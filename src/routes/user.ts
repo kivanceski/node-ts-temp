@@ -1,9 +1,17 @@
-import { Router } from 'express';
-import userControllers from '@/controllers/user';
-import { use } from '@/common/utils';
+import { Router } from 'express'
+import userControllers from '@/controllers/user'
+import { use } from '@/common/utils'
 
-const router = Router();
+const router = Router()
 
-router.get('/', use(userControllers.getUsers));
+router.post('/bulk-create', use(userControllers.bulkCreateUsers))
 
-export default router;
+router.get('/', use(userControllers.getUsers))
+
+router.post('/', use(userControllers.createUser))
+
+router.put('/:userId', use(userControllers.updateUser))
+
+router.delete('/:userId', use(userControllers.deleteUser))
+
+export default router

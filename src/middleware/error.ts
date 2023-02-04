@@ -1,4 +1,5 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 export const errorMiddleware = (
   err: APIError,
@@ -6,13 +7,13 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const message = err.message || 'Something went wrong!';
-  const status = err?.status || 500;
-  res.status(status).json({ message });
-};
+  const message = err.message || 'Something went wrong!'
+  const status = err?.status || 500
+  return res.status(status).json({ message })
+}
 
 export default class APIError extends Error {
   constructor(public message: string, public status: number = 500) {
-    super(message);
+    super(message)
   }
 }
