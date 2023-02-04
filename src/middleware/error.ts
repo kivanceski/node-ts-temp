@@ -1,6 +1,4 @@
 import type { Request, Response, NextFunction } from 'express'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
-
 export const errorMiddleware = (
   err: APIError,
   req: Request,

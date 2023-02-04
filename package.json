@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --exit-child -r tsconfig-paths/register src/app.ts",
-    "production": "ts-node -r tsconfig-paths/register src/app.ts"
+    "start": "ts-node-dev --respawn --exit-child -r tsconfig-paths/register src/index.ts",
+    "production": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "keywords": [],
   "author": "",

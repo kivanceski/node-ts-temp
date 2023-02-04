@@ -1,33 +1,48 @@
-import express from 'express'
-import { config } from 'dotenv'
-import morgan from 'morgan'
-import compression from 'compression'
+import express, { Application } from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
-
-import routes from '@/routes'
+import morgan from 'morgan'
+import compression from 'compression'
 import { errorMiddleware } from './middleware/error'
 
-config()
+import routes from '@/routes'
 
-const app = express()
+const morganConf = process.env.NODE_ENV === 'development' ? 'dev' : 'combined'
 
-app.use(helmet())
+class App {
+  private express: Application
 
-app.use(cors())
+  constructor(private port: number) {
+    this.express = express()
+    this.port = +port
 
-app.use(morgan('dev'))
+    this.initMiddleware()
+    this.initRoutes()
+    this.initError()
+  }
 
-app.use(express.json())
+  private initMiddleware() {
+    this.express.use(helmet())
+    this.express.use(cors())
+    this.express.use(morgan(morganConf))
+    this.express.use(express.json())
+    this.express.use(express.urlencoded({ extended: false }))
+    this.express.use(compression())
+  }
 
-app.use(express.urlencoded({ extended: false }))
+  private initRoutes() {
+    this.express.use('/api', routes)
+  }
 
-app.use(compression())
+  private initError() {
+    this.express.use(errorMiddleware)
+  }
 
-app.use('/api', routes)
+  public listen() {
+    this.express.listen(this.port, () => {
+      console.log('App listening on port: ' + this.port)
+    })
+  }
+}
 
-app.use('/', errorMiddleware)
-
-app.listen(process.env.PORT, () => {
-  console.log('App listening on port: ' + process.env.PORT)
-})
+export default App
