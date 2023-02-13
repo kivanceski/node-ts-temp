@@ -1,2 +1,5 @@
+postgres-data
 node_modules
 .env
+migrations
+.DS_Store

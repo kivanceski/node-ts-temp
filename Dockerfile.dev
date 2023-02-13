@@ -1,0 +1,10 @@
+FROM node:18-alpine3.16
+WORKDIR /app
+COPY package*.json .
+RUN npm i
+COPY prisma prisma
+COPY .env .
+COPY tsconfig.json .
+RUN npx prisma generate
+COPY . .
+CMD npm start

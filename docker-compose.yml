@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  node-app:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+    container_name: node-app
+    platform: linux/amd64
+    volumes:
+      - /app/node_modules
+      - .:/app
+    restart: always
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+  postgres:
+    image: postgres:14.7-alpine
+    container_name: node-temp-postgres
+    hostname: postgres
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: unless-stopped
