@@ -14,14 +14,15 @@ const userHandler: userHandler = {
   },
 
   async createUser(req, res) {
-    const { email, name } = req.body
+    const { email, name, username } = req.body
     if (!email || !name) {
       throw new APIError('Missing parameters', 422)
     }
     const user = await prisma.user.create({
       data: {
         email,
-        name
+        name,
+        username
       }
     })
     console.log(user)

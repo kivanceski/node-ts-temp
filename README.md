@@ -27,3 +27,13 @@ npx prisma migrate dev --name init
 ```
 
 inside the container
+
+### Populate DB
+
+Run:
+
+```
+npx prisma db seed
+```
+
+inside the container
