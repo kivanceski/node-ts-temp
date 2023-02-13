@@ -6,6 +6,17 @@
 
 ```
 cp .env.example .env
+```
+
+Change:
+
+```
+NODE_ENV=development
+```
+
+Then:
+
+```
 docker-compose up --build
 ```
 
